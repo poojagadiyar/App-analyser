@@ -63,4 +63,3 @@ export default function Home() {
     </div>
   );
 }
-curl -o app/page.tsx https://raw.githubusercontent.com/poojagadiyar/App-analyser/main/app/page.tsx
