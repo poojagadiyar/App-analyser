@@ -31,9 +31,9 @@ const SENTIMENT = {
 export default function Dashboard() {
   const [from, setFrom] = useState(format(subDays(new Date(), 7), 'yyyy-MM-dd'));
   const [to, setTo] = useState(format(new Date(), 'yyyy-MM-dd'));
-  const [reviews, setReviews] = useState([]);
+  const [reviews, setReviews] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
-  const [selected, setSelected] = useState(null);
+  const [selected, setSelected] = useState<any>(null);
 
   useEffect(() => { fetchData(); }, [from, to]);
 
@@ -50,12 +50,12 @@ export default function Dashboard() {
   }
 
   const top10 = Object.entries(
-    reviews.reduce((acc, r) => {
+    reviews.reduce((acc: Record<string,number>, r: any) => {
       const key = `${r.l1_category || 'Unclassified'} → ${r.l2_category || 'Unclear'}`;
       acc[key] = (acc[key] || 0) + 1;
       return acc;
     }, {})
-  ).sort((a, b) => b[1] - a[1]).slice(0, 10)
+  ).sort((a, b) => (b[1] as number) - (a[1] as number)).slice(0, 10)
    .map(([label, count]) => ({ label, count, l1: label.split(' → ')[0] }));
 
   const l1Data = Object.entries(
@@ -64,7 +64,7 @@ export default function Dashboard() {
       acc[c] = (acc[c] || 0) + 1;
       return acc;
     }, {})
-  ).sort((a, b) => b[1] - a[1]);
+  ).sort((a, b) => (b[1] as number) - (a[1] as number));
 
   const avg = reviews.length
     ? (reviews.reduce((s, r) => s + (r.rating || 0), 0) / reviews.length).toFixed(1)
